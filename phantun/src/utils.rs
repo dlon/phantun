@@ -1,3 +1,4 @@
+/*
 use neli::{
     consts::{
         nl::{NlmF, NlmFFlags},
@@ -9,6 +10,7 @@ use neli::{
     socket::NlSocketHandle,
     types::RtBuffer,
 };
+*/
 use std::net::{Ipv6Addr, SocketAddr};
 use tokio::net::UdpSocket;
 
@@ -32,7 +34,10 @@ pub fn new_udp_reuseport(local_addr: SocketAddr) -> UdpSocket {
     udp_sock.try_into().unwrap()
 }
 
+// FIXME: assign ipv6 addr
+/*
 pub fn assign_ipv6_address(device_name: &str, local: Ipv6Addr, peer: Ipv6Addr) {
+
     let index = nix::net::if_::if_nametoindex(device_name).unwrap();
 
     let mut rtnl = NlSocketHandle::connect(NlFamily::Route, None, &[]).unwrap();
@@ -58,3 +63,4 @@ pub fn assign_ipv6_address(device_name: &str, local: Ipv6Addr, peer: Ipv6Addr) {
     );
     rtnl.send(nl_header).unwrap();
 }
+*/

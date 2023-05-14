@@ -2,7 +2,7 @@ use clap::{crate_version, Arg, ArgAction, Command};
 use fake_tcp::packet::MAX_PACKET_LEN;
 use fake_tcp::Stack;
 use log::{debug, error, info};
-use phantun::utils::{assign_ipv6_address, new_udp_reuseport};
+use phantun::utils::new_udp_reuseport;
 use std::fs;
 use std::io;
 use std::net::Ipv4Addr;
@@ -161,7 +161,8 @@ async fn main() -> io::Result<()> {
         .unwrap();
 
     if let (Some(tun_local6), Some(tun_peer6)) = (tun_local6, tun_peer6) {
-        assign_ipv6_address(tun[0].name(), tun_local6, tun_peer6);
+        log::error!("IPv6 support was removed");
+        //assign_ipv6_address(tun[0].name(), tun_local6, tun_peer6);
     }
 
     info!("Created TUN device {}", tun[0].name());

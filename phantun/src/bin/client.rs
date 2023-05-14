@@ -2,7 +2,7 @@ use clap::{crate_version, Arg, ArgAction, Command};
 use fake_tcp::packet::MAX_PACKET_LEN;
 use fake_tcp::{Socket, Stack};
 use log::{debug, error, info};
-use phantun::utils::{assign_ipv6_address, new_udp_reuseport};
+use phantun::utils::new_udp_reuseport;
 use std::collections::HashMap;
 use std::fs;
 use std::io;
@@ -162,7 +162,9 @@ async fn main() -> io::Result<()> {
         .unwrap();
 
     if remote_addr.is_ipv6() {
-        assign_ipv6_address(tun[0].name(), tun_local6.unwrap(), tun_peer6.unwrap());
+        // FIXME
+        log::error!("IPv6 support was removed");
+        //assign_ipv6_address(tun[0].name(), tun_local6.unwrap(), tun_peer6.unwrap());
     }
 
     info!("Created TUN device {}", tun[0].name());
