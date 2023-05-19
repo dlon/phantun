@@ -44,7 +44,7 @@ async fn main() -> io::Result<()> {
                 .required(false)
                 .value_name("tunX")
                 .help("Sets the Tun interface name, if absent, pick the next available name")
-                .default_value("")
+                .default_value("Phantun")
         )
         .arg(
             Arg::new("tun_local")
