@@ -151,15 +151,24 @@ async fn main() -> io::Result<()> {
     let num_cpus = num_cpus::get();
     info!("{} cores available", num_cpus);
 
-    let tun = TunBuilder::new()
+    let tun_builder = TunBuilder::new()
         .name(tun_name) // if name is empty, then it is set by kernel.
-        .tap(false) // false (default): TUN, true: TAP.
-        .packet_info(false) // false: IFF_NO_PI, default is true.
         .up() // or set it up manually using `sudo ip link set <tun-name> up`.
-        .address(tun_local)
+        .address(tun_local);
+
+    // FIXME: Up doesn't actually do anything
+    // FIXME: we're not actually setting an IP addr on the device
+    // FIXME: we must probably add a route for the destination
+
+    #[cfg(target_os = "linux")]
+    let tun_builder = tun_builder
+        .packet_info(false) // false: IFF_NO_PI, default is true.
         .destination(tun_peer)
-        .try_build_mq(num_cpus)
-        .unwrap();
+        .tap(true) // false (default): TUN, true: TAP.
+        ;
+
+    // FIXME: add back "multiqueue" support (try_build_mq)
+    let tun = vec![tun_builder.try_build().unwrap()];
 
     if remote_addr.is_ipv6() {
         // FIXME

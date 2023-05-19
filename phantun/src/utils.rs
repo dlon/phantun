@@ -25,8 +25,13 @@ pub fn new_udp_reuseport(local_addr: SocketAddr) -> UdpSocket {
         None,
     )
     .unwrap();
+    #[cfg(not(target_os = "windows"))]
     udp_sock.set_reuse_port(true).unwrap();
+    // TODO: might be incorrect
+    #[cfg(target_os = "windows")]
+    udp_sock.set_reuse_address(true).unwrap();
     // from tokio-rs/mio/blob/master/src/sys/unix/net.rs
+    #[cfg(target_os = "linux")]
     udp_sock.set_cloexec(true).unwrap();
     udp_sock.set_nonblocking(true).unwrap();
     udp_sock.bind(&socket2::SockAddr::from(local_addr)).unwrap();
