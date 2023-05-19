@@ -6,6 +6,7 @@ use phantun::utils::new_udp_reuseport;
 use std::fs;
 use std::io;
 use std::net::Ipv4Addr;
+use std::net::Ipv6Addr;
 use std::sync::Arc;
 use tokio::net::UdpSocket;
 use tokio::sync::Notify;
@@ -128,7 +129,7 @@ async fn main() -> io::Result<()> {
         .parse()
         .expect("bad peer address for Tun interface");
 
-    let (tun_local6, tun_peer6) = if matches.get_flag("ipv4_only") {
+    let (tun_local6, tun_peer6): (Option<Ipv6Addr>, Option<Ipv6Addr>) = if matches.get_flag("ipv4_only") {
         (None, None)
     } else {
         (
