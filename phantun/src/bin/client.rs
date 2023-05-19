@@ -156,9 +156,7 @@ async fn main() -> io::Result<()> {
         .up() // or set it up manually using `sudo ip link set <tun-name> up`.
         .address(tun_local);
 
-    // FIXME: Up doesn't actually do anything
-    // FIXME: we're not actually setting an IP addr on the device
-    // FIXME: we must probably add a route for the destination
+    // FIXME: add a route for tun_peer?
 
     #[cfg(target_os = "linux")]
     let tun_builder = tun_builder
